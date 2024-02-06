@@ -1,0 +1,20 @@
+\begin{tikzpicture}[
+    node distance = 5mm and 5mm,
+    punkt/.style = {rectangle, draw},
+    pil/.style = {black, -stealth},
+    font=\small
+    ]
+
+  \node[] (X) {$X$}
+  \node[punkt] (b1) [below=of X] {DeePWAKBlock} ;
+  \node[] (R1) [below=of b1] {$R_1$} ;
+  \node[] (diff1) [right=of R1] {$\ominus$} ;
+
+  \node[punkt] (b2) [below=of diff1] {DeePWAKBlock} ;
+  \node[] (R2) [below=of b2] {$R_2$} ;
+  \node[] (diff2) [right=of R2] {$\ominus$} ;
+  
+  \node[punkt] (b3) [below=of diff2] {DeePWAKBlock} ;
+  \node[] (R3) [below=of b3] {$R_3$} ;
+  \node[] (diff3) [right=of R3] {$\ominus$} ;
+  

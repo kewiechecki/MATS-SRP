@@ -1,0 +1,65 @@
+\documentclass{article}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{amsmath}
+
+\usepackage{arxiv}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{lipsum}
+\usepackage{graphicx}
+
+\usepackage{algorithm2e}
+
+
+\usepackage{authblk}
+
+\usepackage[backend=biber]{biblatex}
+\addbibresource{refs.bib}
+
+\graphicspath{ {./fig/} }
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, bending, positioning}
+
+\input{vars.tex}
+
+\date{\today}
+
+\title{Can Cluster-Embedding Decomposition Elicit a Model's Latent Ontology?}
+
+\author[1]{Keira Wiechecki}
+\affil[1]{Center for Genomics \& Systems Biology, New York University,
+  \texttt{kaw504@nyu.edu}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+  I propose a new approach to understanding the feature space of a model based on denoising.
+  I further propose that the feature space can be decomposed into two subspaces with intuitive interpretations:
+  a cluster space and an embedding space.
+  I term this $KE$ decomposition.
+  This approach suggests a model's latent ontology can be derived using a paired compressor and a partitioner.
+  I present a novel deep clustering architecture based on this principle.
+  Preliminary analyses reveal several questions warranting further inquiry.
+  
+  %Adapting this method to nontrivial models will be involved, but I expect it to represent a substantial advance in interpretability.  
+\end{abstract}
+
+\input{sections/introduction.tex}
+\input{sections/deepwak.tex}
+
+\printbibliography
+
+%\input{sections/appendix.tex}
+
+\end{document}

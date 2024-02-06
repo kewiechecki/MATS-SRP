@@ -1,0 +1,87 @@
+\appendix
+
+\section{Notation}
+\label{app:notation}
+We use lowecase Latin characters to denote scalars, boldface lowecase characters to denote vectors, and capital Latin characters to denote matrices.
+Subscripts indicate indices.
+Because we will mostly be working with matrices in $\mathbb{R}$, we abbreviate $X : \mathbb{R}^{m \times n}$ as $X^{m \times n}$.
+We use a circumflex to indicate a reconstruction of an input by a predictor.
+Lowercase Greek characters indicate the parameters of a model.
+Capital Greek letters indicate parameter spaces.
+Function names are in monospace.
+
+$\fn^{n \to m}$ indicates a layer with input dimension $n$, output dimension $m$, and activation function $\fn$.
+
+\section{Additional Background}
+\label{app:bgd}
+
+\subsection{Denoising the data explains the data}
+\label{app:ntos}
+For a large class of denoising functions, it is possible to find optimal parameters using only unlabeled noisy data\cite{batson2019noise2self}.
+$\ntos$ gives a near-maximally-general optimization target for hyperparameter search.
+
+
+Let $J \in \mathcal{J}$ be independent partitions of noisy data $X$.
+Let $\mathcal{F}(\theta)$ be a family of predictors of $X_J$ with tunable parameters
+$\theta \in \Theta$ that depends on its complement $X_{J^C}$
+
+\begin{equation}
+  \hat{X}_J=\mathcal{F}(\theta)(X_{J^C})
+\end{equation}
+
+In other words, $\mathcal{F}$ predicts each data point $X_J$ from some subset of the data excluding $X_J$. 
+
+  The optimal $\theta$ is given by
+
+\begin{equation}
+  \label{eq:ntos}
+  \ntos_\theta^{\Theta}[\mathcal{F}(\theta),X] := \argmin_\theta^{\Theta}[\sum_{J}^{\mathcal{J}}\mathbb{E}[X_J-\mathcal{F}(\theta)(X_{J^C})]^2]
+\end{equation}
+
+\subsection{Diffusion with weighted affinity kernels}
+
+$\ntos$ is particularly useful for finding optimal parameters for generating a graph\cite{tjarnberg2021}.
+(see Appendix \ref{app:DEWAKSS})
+The adjacency matrix $G$ of any graph can be treated as a transition matrix (or weighted affinity kernel) by setting the diagonal to 0 and normalizing columns to sum to 1. We call this the \WAK function (Algorithm \ref{alg:WAK}).
+
+For each value in data $X$, an estimate is calculated based on its neighbors in the graph. This can be expressed as matrix multiplication.
+
+\begin{equation}
+  \label{eq:WAK}
+\hat{X} := \WAK(G)X^\top
+\end{equation}
+
+
+\subsection{Partitioned weighted affinity kernels} 
+\label{app:pwak}
+
+Though DEWAKSS uses a $k$-NN graph, any adjacency matrix will do.
+A clustering can be expressed as a graph where points within a cluster are completely connected and clusters are disconnected.
+
+Let $K^{k \times n}$ be a matrix representing a clustering of $n$ points into $k$ clusters. Let each column be a 1-hot encoding of a cluster assignment for each point. We can obtain a partition matrix $P \in \mathbb{R}^{n \times n}$ by what we'll call the \textit{partitioned weighted affinity kernel} (\PWAK) function.
+
+\begin{equation}
+  \label{eq:PWAK}
+  \PWAK(K) := \WAK(K^\top K)
+\end{equation}
+
+This lets us define a loss function
+
+\begin{equation}
+  \mathcal{L}_{\mathPWAK}(K,X) := \mathbb{E}[\mathPWAK(K)X^\top - X]^2
+\end{equation}
+
+
+\PWAK can be extended to soft cluster assignment, making it possible to learn $K$ via SGD.
+We will refer to a model of this sort as a \Partitioner to emphasize that while it returns logits corresponding to classifications, there are no labels on the training data.
+
+There is no accuracy measure separate from the decoder loss.
+The partitioner simply tries to find the best $P$ for minimizing loss of the decoded output.
+
+The only hyperparameters are the maximum number of clusters, the neural net architecture, and the training hyperparameters.
+Because $PX^\top$ is $\mathcal{J}$-invariant, this classifier will converge on a solution less than the maximum $k$.
+Intuitions from transformers may be helpful in visualizing why this works.
+Informally, $P$ can be equated to position-independent attention with data points as tokens and the batch size as the context window.
+Attentive readers may make a connection between masking the diagonal and BERT.
+
+We can now train a model to classify unlabeled data into an undefined number of clusters with no prior distribution in $\mathcal{O}(n^2)$ time!

@@ -1,0 +1,157 @@
+\section{Plan}
+\subsection{Overview}
+
+\subsubsection{Research Questions}
+I attempt to determine whether an autoencoder combined with a self-supervised classifier produces more interpretable features than a na\"ive SAE.
+I perform clustering with multiple architecture variants to assess stability of the latent classifications.
+I try to asses whether a toy model trained on the same data but with different objectives learns the same abstractions.
+
+\subsubsection{A toy model of feature splitting}
+I trained a MNIST classifier with a 3 neuron bottleneck.
+I hypothesized that since the model had more labels than neurons in the bottleneck, features would be represented in superposition.
+I refer to this as the ``outer model''.
+Details are in Appendix \ref{}
+
+\subsubsection{Feature splitting}
+I train three ``inner models'' to split the bottleneck activations into sparse features.
+All of them have an embedding size of 27.
+The PSAE is identical to the SAE except for containing a partitioner submodel.
+Details are in Appendix \ref{}
+
+\subsubsection{Clustering}
+I introduce two novel architectures that combine feature splitting with clustering. See Appendix \ref{} for details.
+Both have identical clustering submodules with a maximum $k$ of 12.
+They only differ is their encoders and (in the case of DeePWAK) decoders.
+
+\subsubsection{Cluster Enrichment}
+I performed a
+\hyperlink{https://en.wikipedia.org/wiki/Hypergeometric_distribution#Hypergeometric_test}{hypergeometric test}
+for pairwise enrichment of all classifications in each model.
+
+\subsection{Legend}
+\paragraph{$\boxed{\checkmark}$ Completed}
+\paragraph{$\boxed{\times}$ Not started}
+\paragraph{$\boxed{+}$ Started; needs work}
+\paragraph{$\boxed{-}$ Remove or scale down}
+
+\subsection{Model Designs}
+
+\subsubsection{Data}
+\paragraph{$\boxed{\checkmark}$ MNIST}
+\paragraph{$\boxed{-}$ Microscopy data}
+Requires too much context to explain.
+It's interesting to see how DeePWAK finds structure in a low quality data set but it's still a low quality data set.
+
+\subsubsection{Outer models}
+As a toy model of superposition, I trained a MNIST classifier with a 3 neuron information bottleneck.
+I will train a second model where the classifier component after the bottleneck is replaced with a decoder.
+In both cases the architecture is identical before the bottleneck, but the goal is different.
+I expect that both models will encode similar information in the bottleneck layer.
+
+
+\paragraph{$\boxed{\checkmark}$ Encoder}
+
+\paragraph{$\boxed{\checkmark}$ Classifier}
+
+\paragraph{$\boxed{\times}$ Decoder}
+
+
+\subsubsection{Inner models}
+
+\paragraph{$\boxed{\checkmark}$ SAE}
+A minimal SAE implementation is available at
+\url{https://github.com/kewiechecki/SAE}
+
+\paragraph{$\boxed{\checkmark}$ PSAE}
+see above
+
+\paragraph{$\boxed{\checkmark}$ DeePWAK}
+see above
+
+\paragraph{$\boxed{-}$ DeePWAKBlock}
+This can be relegated to a separate paper.
+It doesn't add much for the model I'm working with.
+
+\subsubsection{Inner model methods}
+
+\paragraph{$\boxed{\checkmark}$ Encoding}
+This is just the 
+\paragraph{$\boxed{\checkmark}$ Decoding}
+\paragraph{$\boxed{\checkmark}$ Clustering}
+\paragraph{$\boxed{\checkmark}$ Cluster centroids}
+\subsubsection{Training}
+
+\paragraph{$\boxed{\times}$ Checkpoints}
+Save models at different stages of training
+
+\subsection{Visualizations}
+
+\paragraph{$\boxed{+}$ Loss}
+\paragraph{$\boxed{\times}$ Visualize cluster centroids throughout training}
+
+\subsubsection{Heatmaps}
+
+\paragraph{$\boxed{\times}$ How to read}
+\S \ref{sec:heatmaps}
+\paragraph{$\boxed{\checkmark}$ Embeddings}
+Fig. \ref{fig:E_MNIST}
+\paragraph{$\boxed{\checkmark}$ Clusters}
+Fig. \ref{fig:K_MNIST}
+\subsubsection{Hypergeometric test}
+
+\paragraph{$\boxed{\times}$ How to read dot plot}
+\paragraph{$\boxed{\checkmark}$ Dot plot}
+Fig. \ref{fig:hyperMNIST}
+\paragraph{$\boxed{\times}$ Remove outline scale from dot plot}
+This is confusing and doesn't add useful information.
+
+\subsection{Distribution}
+\paragraph{$\boxed{+}$ Git repo}
+Code is divided between
+\url{https://github.com/kewiechecki/DeePWAK} and
+\url{https://github.com/kewiechecki/SAE}.
+These need to be unified.
+
+\subsubsection{Documentation}
+\paragraph{$\boxed{+}$ Model documentation}
+\paragraph{$\boxed{+}$ Training documentation}
+\paragraph{$\boxed{\times}$ Figure documentation}
+\paragraph{$\boxed{\times}$ Julia modules}
+
+\subsection{Publication}
+\paragraph{$\boxed{\checkmark}$ \LaTeX template}
+
+\subsubsection{Illustrative figures}
+
+\begin{figure}
+     \begin{subfigure}[b]{0.5\textwidth}
+        \input{tikz/DeePWAK.tex}
+         \caption{}
+         \label{fig:}
+     \end{subfigure}
+     \hfill
+     
+     \caption{DeePWAK inference.
+       See Appendix \ref{app:notation} for notation details.
+     }
+     \label{fig:deepwak}
+\end{figure}
+
+\paragraph{$\boxed{\times}$ Outer models}
+\paragraph{$\boxed{\checkmark}$ DeePWAK flowchart}
+Fig. \ref{fig:deepwak}
+\paragraph{$\boxed{\times}$ PWAK example}
+\paragraph{$\boxed{+}$ Diffusion example}
+Take out DEWAKSS example. Substitute example from actual data.
+\paragraph{$\boxed{+}$ Figure legends}
+
+\subsubsection{Algorithms}
+\paragraph{$\boxed{-}$ noise2self}
+\paragraph{$\boxed{-}$ PWAK}
+
+\subsection{Supplementary Publications}
+\paragraph{$\boxed{\times}$ Theoretical foundations}
+Material cut from \S \ref{sec:2}. Probably post to LessWrong.
+\paragraph{$\boxed{+}$ DeePWAK}
+Split out all microscopy and multihead stuff to
+\url{https://drive.google.com/file/d/1geDArkvUQVOp79dF9knNmO3iP-1BYGOD/view?usp=drive_link}.

@@ -1,0 +1,100 @@
+
+\section{Threat Model}
+
+We don't currently know how to specify a \hyperlink{https://arbital.com/p/diamond_maximizer/}{robust goal for a model}.
+Because goal space is large, we should expect
+\hyperlink{https://www.lesswrong.com/s/r9tYkB2a8Fp4DN8yB/p/FkgsxrGf3QxhfLWHG}{goal misgeneralization as the default outcome}.
+We can't currently look inside a model and make any conclusions about its goals.
+Mechanistic interpretability (mechinterp) is rapidly improving but is still nowhere near being scalable to frontier models.
+
+To a large extent, deep learning models seem to learn \hyperlink{}{universal} features irrespective of architecture.
+This implies the existence of
+\hyperlink{https://www.lesswrong.com/posts/gvzW46Z3BsaZsLc25/natural-abstractions-key-claims-theorems-and-critiques-1}{natural abstractions},
+which would be a very convenient shortcut for auditing a model.
+Unfortunately, the abstractions a model learns seem highly sensitive to choice of training data, and are thus not necessarily universal in the limit.
+This means that we cannot expect the abstractions learned by a weak model to remain robust in a more powerful model.
+
+\section{Theory of Change}
+\label{sec:2}
+
+\subsection{My macro-scale strategy}
+I see the fundamental problems for alleviating this threat as
+
+\begin{enumerate}
+  \item formalize the notion of a model's latent concept space
+  \item distill a model's latent concept space
+  \item enforce decomposability of latent concept space
+  \item enforce robustness of existing concepts as the dimensionality of the latent concept space increases
+\end{enumerate}
+
+My justification for this line of research is
+\begin{enumerate}
+\item Almost every alignment proposal is limited by the ability to point at a concept.
+\item According to singular learning theory (SLT), any sufficiently parameterized model trained on the same data will converge on the same latent representation of the data.
+\item Almost every alignment proposal becomes much more tractable if we can reason about features in isolation.
+\end{enumerate}
+
+\subsection{My working theory of ontology}
+I refer to any mapping of data to abstractions as an \textit{ontology}.
+
+Rapid progress in scaling LLMs has made it increasingly clear that data rather than compute is the limiting factor on capabilities.
+This was not at all obvious in hindsight and if we survive the coming decades it will profoundly reshape every aspect of philosophy.
+From an alignment perspective, the universality of deep learning independent of architecture is strong evidence for the natural abstraction hypothesis.
+This is very good news! We have evidence that for any given data there is an ``objective'' ground truth.
+
+\subsubsection{Features and concepts}
+Mechinterp has been very successful at decomposing models into linear \textit{features}.
+Features have proven to be a powerful way of abstracting over activation space.
+In other words, mechinterp aims to construct \textit{an ontology of activation space}.
+
+However, this is not the only model ontology we care about.
+Many of the concepts humans care about are discrete or stochastic.
+For humans, it's unintuitive to think of every image as containing a sliding ``car vector''.
+Humans classify images as containing a car.
+Note that there is a subtle difference between these two kinds of abstraction.
+The former is abstracting over \textit{the pixels in an image} to obtain a characteristic measurement of how ``car'' it is.
+The latter is abstracting over \textit{the images in a set} to obtain a likelihood (if we assume differentiability) that the image is in the ``contains car'' category.  
+I will refer to the former as \textit{features} and the latter as \textit{concepts}.
+If we have some data $X \in \mathbb{R}^{m \times n}$,
+where $n$ is the number of samples and $m$ is the number of measurements from each sample, 
+features are abstractions over $m$ and concepts are abstractions over $n$.
+
+\subsection{Clustering and latent classification}
+I propose that this ``ontology over concepts'' is best expressed in terms of clustering.
+Neural networks are continuous, but can learn discrete tasks.
+SLT suggests a possible mechanism for this behavior,
+but a systematic way of characterizing discretization in the wild remains an open problem.
+Though SLT provides a rich thermodynamic description of learning,
+an alternative metaphor may be more intuitive.
+Consider a latent classifier contained in the model.
+Subsequent computations can be conditional on the classification
+
+Additional information on the algorithm are in Appendix \ref{app:bgd}.
+
+%\subsubsection{Empirical abstraction}
+%The field of natural abstraction generally deals with the limit behavior of a learning algorithm as data approach infinity.
+%I will however restrict my definitions to model training regimes I can run experiments on.
+%I refer to the abstractions learned from a specific finite training set as \textit{empirical abstractions}.  
+%
+%\subsubsection{Denoising, compression, and clustering}
+%Ontologies must serve an information theoretic purpose.
+%I argue that their primary purpose is minimizing prediction loss through \textit{denoising}.
+%Which is to say, discarding information that cannot be used to make inferences.
+%I further posit that there are two mechanisms by which ontologies form: compression and clustering.
+%These mechanisms are synergistic. Informally, I equate the two with PCA and SVD.
+%In my preliminary results, I hope to demonstrate that this intuition has (putative) empirical backing.
+
+\subsection{SAEs and abstraction}
+Mechinterp is best charaterized as understanding the abstractions used by a model.
+\hyperlink{}{Sparse autoencoders} (SAEs) have become a powerful tool for identifying monosemantic features.
+Though SAE features are significantly more interpretable than raw activations, interpreting them is still a daunting task.
+\hyperlink{https://www.lesswrong.com/posts/f9EgfLSurAiqRJySD/open-source-sparse-autoencoders-for-all-residual-stream}{A high quality library for a single layer}
+can contain over 25,000 features.
+It would be a substantial interpretability advance if we could impose structure on these features.
+
+Existing research on SAEs suggests that features assemble into clusters representing higher order features.
+This suggests the possibility of a hierarchical organization of features.
+Characterizing features requires carefully balancing feature sparcity and accurately reconstructing the model activations.
+We would like to be able to selectively zoom in on features.
+
+

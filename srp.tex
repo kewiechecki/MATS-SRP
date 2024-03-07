@@ -20,6 +20,11 @@
 \usepackage{algorithm2e}
 \usepackage{authblk}
 %\usepackage{bbding}
+\usepackage{multirow}
+\usepackage{makecell, tablefootnote, longtable}
+
+%\usepackage{multicol}
+%\setlength{\columnsep}{20pt}
 
 \usepackage[backend=biber]{biblatex}
 \addbibresource{refs.bib}
@@ -30,39 +35,81 @@
 \usetikzlibrary{arrows.meta, bending, positioning}
 
 \hypersetup{colorlinks=true,linkcolor=blue,filecolor=magenta,urlcolor=cyan}
-\input{vars.tex}
+\input{commands}
 
 \date{\today}
 
-\title{Abstracting Features Using Cluster-Embedding Decomposition}
+%\title{Are Data Singular?}
+\title{Finding an Interpretable Feature Basis with Self-Supervised Classification}
+%\title{Finding an Interpretable Basis with Cluster-Embedding Decomposition}
 %\title{Sparse Autoencoders, Clustering, and Natural Abstractions}
 %\title{Can Sparse Autoencoders Identify Natural Abstractions?}
+\subtitle{Aggregating data into maximum entropy clusters produces sparse and interpretable features 
+even without a sparcity penalty}
 
 \author[1]{Keira Wiechecki}
 \affil[1]{Center for Genomics \& Systems Biology, New York University,
   \texttt{kaw504@nyu.edu}}
 
 \begin{document}
+
 \maketitle
 
+
 \begin{abstract}
-  I propose a new approach to understanding the feature space of a model based on denoising.
-  I further propose that the feature space can be decomposed into two subspaces with intuitive interpretations:
-  a cluster space and an embedding space.
-  I term this $KE$ decomposition.
-  This approach suggests a model's latent ontology can be derived using a paired compressor and a partitioner.
-  I present a novel deep clustering architecture based on this principle.
-  Preliminary analyses reveal several questions warranting further inquiry.
+I identify two powerful but somewhat obscure unsupervised learning principles with neglected potential
+to advance interpretability research.
+%The first is self-supervised denoising as a loss functio:
+%for a large class of denoising functions, it is possible to minimize loss using only unlabeled,
+%noisy data.
+The first is causal emergence:
+a high entropy graph can be aggregated into a low entropy representation.
+The second is self-supervised denoising:
+graph aggregation can be expressed as a denoising function which can be optimized with no prior knowledge.  
+I present a modified version of a sparse autoencoder based on these principles.
+%  I present a formulation of clustering as an unsupervised classification problem.
+%  I present a novel deep clustering architecture using an unsupervised classifier (UC) to find a denoising kernel.
+%  Training the UC in parallel with a sparse autoencoder (SAE) discovers features that best capture variation between clusters.
+%  I term this cluster-embedding ($KE$) decomposition.
+%In this proposal, I introduce a novel method for analyzing the feature space of a model combining clustering and denoising,
+%which I term cluster-embedding ($KE$) decomposition.
+%By treating clustering as an unsupervised classification problem, 
+%we can obtain a denoising diffusion kernel based on the probability of sample pairs being in the same cluster.
+%By training the unsupervised classifier in parallel with a sparse autoencoder,
+%we can identify ``basis features'' which distinguish maximum entropy clusters.
+  %Remarkably, the aggregate clusters obtained from the information bottleneck of an MNIST classifier
+  %have nearly 1-to-1 correspondence to the model's latent representation.
+  Preliminary experiments on a toy model of superposition suggest this method produces a sparser, 
+  more interpretable features than a na\"ive SAE. 
+In the short term, I plan to assess whether this method can detect concept formation, validate these results across a representative set of toy models,
+  and determine a rigorous metric for comparing the interpretability of features.
+  In the extension phase I would like to scale this approach to GPT-2.
   
-  %Adapting this method to nontrivial models will be involved, but I expect it to represent a substantial advance in interpretability.  
+  %I propose $KE$ decomposition deserves further study as a potentially powerful and versatile interpretability tool.
+  
+%  I further propose that the feature space can be decomposed into two subspaces with intuitive interpretations:
+%  a cluster space and an embedding space.
+%  This approach suggests a model's latent ontology can be derived using a paired encoder and unsupervised classifier.
+  
 \end{abstract}
 
-\input{sections/introduction.tex}
-\input{sections/plan.tex}
-\input{sections/results.tex}
+%\begin{multicols}{2}
+\input{sections/threatmodel}
+\input{sections/theoryofchange}
+%\end{multicols}
+
+\input{sections/plan}
+%\input{sections/methods}
 
 \printbibliography
 
-\input{sections/appendix.tex}
+\appendix
+
+\section*{Appendix} % Title for the entire appendix
+\addcontentsline{toc}{section}{Appendix} % Optional: Add appendix title to the Table of Contents
+
+\input{sections/results}
+
+\input{sections/appendix}
 
 \end{document}

@@ -1,0 +1,132 @@
+\begin{longtable}{c|c|c}
+    \caption{Progress}
+    \label{tab:plan}
+    
+    \hline
+    \multicolumn{3}{c}{\textbf{Legend}} \\
+    \hline
+    $\boxed{\checkmark}$ & Completed & \\
+    \hline
+    $\boxed{\times}$ & Not started & \\
+    \hline
+    $\boxed{+}$ & Started; needs work & \\
+    \hline
+    $\boxed{-}$ & Remove or scale down & \\
+    
+    \hline
+    \multicolumn{3}{c}{\textbf{Data}} \\
+    \hline
+    $\boxed{\checkmark}$ & MNIST & \\ 
+    \hline
+    \multirow{3}{*}{$\boxed{-}$} & \multirow{3}{*}{Microscopy data} & 
+    Requires too much context to explain. \\
+    & & It's interesting to see how DeePWAK finds structure in a low quality \\
+    & & data set but it's still a low quality data set. \\
+    
+    \hline
+    \multicolumn{3}{c}{\textbf{Outer models}} \\
+    \hline
+    $\boxed{\checkmark}$ & Encoder & \\
+    \hline
+    $\boxed{\checkmark}$ & Classifier & \\
+    \hline
+    $\boxed{\checkmark}$ & Decoder & \\
+
+    \hline
+    \multicolumn{3}{c}{\textbf{Inner models}} \\
+    \hline
+    \multirow{2}{*}{$\boxed{\checkmark}$} & \multirow{2}{*}{SAE} &
+    A minimal SAE implementation is available at \\
+    & & \url{https://github.com/kewiechecki/SAE} \\
+    \hline
+    $\boxed{\checkmark}$ & PSAE & see above \\
+    \hline
+    \multirow{4}{*}{$\boxed{-}$} &  \multirow{4}{*}{DeePWAK} &
+    Might be needlessly complicating things. \\
+    & & Not straightforward to interpret embed \& unembed. \\
+    & & If I want to look at importance of nonlinearity \\
+    & & it makes more sense to look at SAE with no $\relu$. \\
+    \hline
+    \multirow{2}{*}{$\boxed{-}$} & \multirow{2}{*}{DeePWAKBlock} &
+    This can be relegated to a separate paper. \\
+    & & It doesn't add much for the model I'm working with. \\
+    \hline
+
+    \multicolumn{3}{c}{\textbf{Inner model methods}} \\
+    \hline
+    $\boxed{\checkmark}$ & Encoding & \\
+    \hline
+    $\boxed{\checkmark}$ & Decoding & \\
+    \hline
+    $\boxed{\checkmark}$ & Clustering & \\
+    \hline
+    $\boxed{\checkmark}$ & Cluster centroids & \\
+    \hline
+    
+    \multicolumn{3}{c}{\textbf{Training}} \\
+    \hline
+    $\boxed{\times}$ & Checkpoints & Save models at different stages of training \\
+    \hline
+
+    \subsection{Visualizations}
+
+$\boxed{\checkmark}$ & Loss} Figs. \ref{fig:lossouter}, \ref{fig:lossinner &
+$\boxed{\times}$ & Visualize cluster centroids throughout training &
+
+\multicolumn{3}{c}{\textbf{Heatmaps}} \\
+
+$\boxed{+}$ & How to read &
+\S \ref{sec:heatmaps}
+$\boxed{\checkmark}$ & Embeddings &
+Fig. \ref{fig:E_MNIST}
+$\boxed{\checkmark}$ & Clusters &
+Fig. \ref{fig:K_MNIST}
+\multicolumn{3}{c}{\textbf{Hypergeometric test}} \\
+
+$\boxed{\times}$ & How to read dot plot &
+$\boxed{\checkmark}$ & Dot plot &
+Fig. \ref{fig:hyperMNIST}
+$\boxed{\times}$ & Remove outline scale from dot plot &
+This is confusing and doesn't add useful information.
+
+\subsection{Distribution}
+$\boxed{+}$ & Git repo &
+Code is divided between
+\url{https://github.com/kewiechecki/DeePWAK} and
+\url{https://github.com/kewiechecki/SAE}.
+These need to be unified.
+
+\multicolumn{3}{c}{\textbf{Documentation}} \\
+$\boxed{+}$ & Model documentation &
+$\boxed{+}$ & Training documentation &
+$\boxed{\times}$ & Figure documentation &
+$\boxed{\times}$ & Julia modules &
+
+\subsection{Publication}
+$\boxed{\checkmark}$ & \LaTeX template &
+$\boxed{\checkmark}$ & Share on Overleaf &
+\hyperlink{https://www.overleaf.com/read/mcvdvdfyfthn#fb5a8e}{view}
+
+\multicolumn{3}{c}{\textbf{Illustrative figures}} \\
+$\boxed{\times}$ & Outer models &
+$\boxed{\checkmark}$ & DeePWAK flowchart &
+Fig. \ref{fig:deepwak}
+$\boxed{\times}$ & PWAK example &
+$\boxed{+}$ & Diffusion example &
+Take out DEWAKSS example. Substitute example from actual data.
+$\boxed{+}$ & Figure legends &
+
+\multicolumn{3}{c}{\textbf{Algorithms}} \\
+$\boxed{-}$ & noise2self &
+$\boxed{-}$ & PWAK &
+
+\subsection{Supplementary Publications}
+$\boxed{\times}$ & Theoretical foundations &
+Material cut from \S \ref{sec:2}. Probably post to LessWrong.
+$\boxed{+}$ & DeePWAK &
+Split out all microscopy and multihead stuff to
+\url{https://github.com/kewiechecki/DeePWAK}
+%\url{https://drive.google.com/file/d/1geDArkvUQVOp79dF9knNmO3iP-1BYGOD/view?usp=drive_link}.
+
+    
+\end{longtable}

@@ -1,0 +1,15 @@
+\begin{tikzpicture}[
+    node distance = 5mm and 5mm,
+    punkt/.style = {rectangle, draw},
+    pil/.style = {black, -stealth},
+    font=\small
+    ]
+  \node[punkt,label=above:$\classifier^{3 \to 10}$] (c1) {$\relu^{3 \to 5}$} ;
+  \node[punkt] [below=of c1] (c2) {$\relu^{5 \to 10}$} ;
+  \node[punkt] [below=of c2] (softmax) {$\softmax$} ;
+
+  \draw[pil]
+  (c1) edge (c2)
+  (c2) edge (softmax);
+  
+\end{tikzpicture}

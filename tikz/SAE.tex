@@ -11,7 +11,7 @@
   \node[label=right:embeddings] (E) [below=of encoder] {$E_{inner}^{d \times n}$} ;
   \node[punkt] (Etranspose) [below=of E] {\transpose} ;
 
-  \node[punkt] (partitioner) [left=of encoder] {$\classifier_{inner}^{m \to k}$} ;
+  \node[punkt] (partitioner) [left=of encoder] {$\partitioner^{m \to k}$} ;
   \node[punkt] (softmax) [below=of partitioner] {\softmax} ;
 
   \node[label=left:soft clusters] (K) [below=of softmax] {$K_{inner}^{k \times n}$} ;

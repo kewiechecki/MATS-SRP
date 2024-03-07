@@ -1,157 +1,143 @@
+%\begin{multicols}{2}
+
 \section{Plan}
-\subsection{Overview}
 
-\subsubsection{Research Questions}
-I attempt to determine whether an autoencoder combined with a self-supervised classifier produces more interpretable features than a na\"ive SAE.
-I perform clustering with multiple architecture variants to assess stability of the latent classifications.
-I try to asses whether a toy model trained on the same data but with different objectives learns the same abstractions.
+\subsection{Current Research Questions}
+\begin{enumerate}
+    \item Can a PSAE recover latent classifications from a toy model?
+    \item Can PSAEs be used to aggregate SAE features?
+    \item Are PSAE features more interpretable than SAE features?
+    \item Can interpretability of a feature be defined in terms of effective information?
+    \item Can we define a proxy metric for interpretability based on feature perturbation?
+    \item Are cluster centroids from a PSAE representative of ``central cases'' of a classification?
+    \item Can a PSAE detect formation of concepts during training?
+    \item How does this compare to devinterp SOTA?
+    \item Can PSAE clusters be used as a proxy for effective information gain during training?
+\end{enumerate}
 
-\subsubsection{A toy model of feature splitting}
-I trained a MNIST classifier with a 3 neuron bottleneck.
-I hypothesized that since the model had more labels than neurons in the bottleneck, features would be represented in superposition.
-I refer to this as the ``outer model''.
-Details are in Appendix \ref{}
+\subsection{Further Research Questions}
+\begin{enumerate}
+    \item How do linear combinations of PSAEs behave?
+    \item How do sequential PSAEs differ from parallel PSAEs?
+\end{enumerate}
 
-\subsubsection{Feature splitting}
-I train three ``inner models'' to split the bottleneck activations into sparse features.
-All of them have an embedding size of 27.
-The PSAE is identical to the SAE except for containing a partitioner submodel.
-Details are in Appendix \ref{}
-
-\subsubsection{Clustering}
-I introduce two novel architectures that combine feature splitting with clustering. See Appendix \ref{} for details.
-Both have identical clustering submodules with a maximum $k$ of 12.
-They only differ is their encoders and (in the case of DeePWAK) decoders.
-
-\subsubsection{Cluster Enrichment}
-I performed a
-\hyperlink{https://en.wikipedia.org/wiki/Hypergeometric_distribution#Hypergeometric_test}{hypergeometric test}
-for pairwise enrichment of all classifications in each model.
-
-\subsection{Legend}
-\paragraph{$\boxed{\checkmark}$ Completed}
-\paragraph{$\boxed{\times}$ Not started}
-\paragraph{$\boxed{+}$ Started; needs work}
-\paragraph{$\boxed{-}$ Remove or scale down}
-
-\subsection{Model Designs}
-
-\subsubsection{Data}
-\paragraph{$\boxed{\checkmark}$ MNIST}
-\paragraph{$\boxed{-}$ Microscopy data}
-Requires too much context to explain.
-It's interesting to see how DeePWAK finds structure in a low quality data set but it's still a low quality data set.
-
-\subsubsection{Outer models}
-As a toy model of superposition, I trained a MNIST classifier with a 3 neuron information bottleneck.
-I will train a second model where the classifier component after the bottleneck is replaced with a decoder.
-In both cases the architecture is identical before the bottleneck, but the goal is different.
-I expect that both models will encode similar information in the bottleneck layer.
-
-
-\paragraph{$\boxed{\checkmark}$ Encoder}
-
-\paragraph{$\boxed{\checkmark}$ Classifier}
-
-\paragraph{$\boxed{\times}$ Decoder}
-
-
-\subsubsection{Inner models}
-
-\paragraph{$\boxed{\checkmark}$ SAE}
-A minimal SAE implementation is available at
-\url{https://github.com/kewiechecki/SAE}
-
-\paragraph{$\boxed{\checkmark}$ PSAE}
-see above
-
-\paragraph{$\boxed{\checkmark}$ DeePWAK}
-see above
-
-\paragraph{$\boxed{-}$ DeePWAKBlock}
-This can be relegated to a separate paper.
-It doesn't add much for the model I'm working with.
-
-\subsubsection{Inner model methods}
-
-\paragraph{$\boxed{\checkmark}$ Encoding}
-This is just the 
-\paragraph{$\boxed{\checkmark}$ Decoding}
-\paragraph{$\boxed{\checkmark}$ Clustering}
-\paragraph{$\boxed{\checkmark}$ Cluster centroids}
-\subsubsection{Training}
-
-\paragraph{$\boxed{\times}$ Checkpoints}
-Save models at different stages of training
-
-\subsection{Visualizations}
-
-\paragraph{$\boxed{+}$ Loss}
-\paragraph{$\boxed{\times}$ Visualize cluster centroids throughout training}
-
-\subsubsection{Heatmaps}
-
-\paragraph{$\boxed{\times}$ How to read}
-\S \ref{sec:heatmaps}
-\paragraph{$\boxed{\checkmark}$ Embeddings}
-Fig. \ref{fig:E_MNIST}
-\paragraph{$\boxed{\checkmark}$ Clusters}
-Fig. \ref{fig:K_MNIST}
-\subsubsection{Hypergeometric test}
-
-\paragraph{$\boxed{\times}$ How to read dot plot}
-\paragraph{$\boxed{\checkmark}$ Dot plot}
-Fig. \ref{fig:hyperMNIST}
-\paragraph{$\boxed{\times}$ Remove outline scale from dot plot}
-This is confusing and doesn't add useful information.
-
-\subsection{Distribution}
-\paragraph{$\boxed{+}$ Git repo}
-Code is divided between
-\url{https://github.com/kewiechecki/DeePWAK} and
-\url{https://github.com/kewiechecki/SAE}.
-These need to be unified.
-
-\subsubsection{Documentation}
-\paragraph{$\boxed{+}$ Model documentation}
-\paragraph{$\boxed{+}$ Training documentation}
-\paragraph{$\boxed{\times}$ Figure documentation}
-\paragraph{$\boxed{\times}$ Julia modules}
-
-\subsection{Publication}
-\paragraph{$\boxed{\checkmark}$ \LaTeX template}
-
-\subsubsection{Illustrative figures}
+\subsection{Big Questions}
+\begin{enumerate}
+    \item Is effective information a useful measure of model capability?
+    \item Is it possible to have a model-independent measure of effective information of a data set?
+    \item Are PSAEs a fully general clustering solution?
+    \item Can a metaontology be expressed in terms of PSAEs?
+\end{enumerate}
 
 \begin{figure}
-     \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+     %\begin{subfigure}[b]{0.5\textwidth}
         \input{tikz/DeePWAK.tex}
-         \caption{}
-         \label{fig:}
-     \end{subfigure}
-     \hfill
+      %   \caption{}
+      %   \label{fig:}
+     %\end{subfigure}
+     %\hfill
      
-     \caption{DeePWAK inference.
-       See Appendix \ref{app:notation} for notation details.
+     \caption{
+     $KE$ decomposition forward pass. 
+     $E_{outer}$ is the activation matrix obtained from an outer model.
+     For $n$ samples with $m$ activations, an inner encoder embeds each as a vector of length $d$.
+     An inner classifier assigns probabilities for each sample being in each of $k$ clusters.
+     Using the \PWAK transformation (see Appendix \ref{app:pwak}), 
+     we obtain a denoising diffusion kernel based on the probability of sample pairs being in the same cluster.
+     Matrix multiplication of the kernel with the inner embeddings gives denoised embeddings.
+     The decoder unembeds the denoised embeddings back into activations of the outer model.
+     The general method can be combined with any inner encoder, decoder, and classifier.
+     See Appendix \ref{app:notation} for notation details.
      }
      \label{fig:deepwak}
 \end{figure}
 
-\paragraph{$\boxed{\times}$ Outer models}
-\paragraph{$\boxed{\checkmark}$ DeePWAK flowchart}
-Fig. \ref{fig:deepwak}
-\paragraph{$\boxed{\times}$ PWAK example}
-\paragraph{$\boxed{+}$ Diffusion example}
-Take out DEWAKSS example. Substitute example from actual data.
-\paragraph{$\boxed{+}$ Figure legends}
+\subsection{Immediate goals}
+\secsubhead{2-3 weeks}
+\begin{enumerate}
+    \item Train a toy model of feature splitting with checkpoints
+    \item Implement an SAE and PSAE for the toy model
+    \item Measure change in effective information during training
+    \item Implement feature visualization
+    \item Causal intervention on features
+\end{enumerate}
 
-\subsubsection{Algorithms}
-\paragraph{$\boxed{-}$ noise2self}
-\paragraph{$\boxed{-}$ PWAK}
+\subsection{Initial paper}
+\secsubhead{5 weeks}
+\begin{enumerate}
+    \item Review literature on interpretability metrics
+    \item Determine how to quantify the interpretability of a feature
+    \item Gain a better understanding of how causal emergence and SLT fit together
+    \item Document git repo
+    \item Separate writeup on theory \& how it fits into a broader alignment agenda
+\end{enumerate}
 
-\subsection{Supplementary Publications}
-\paragraph{$\boxed{\times}$ Theoretical foundations}
-Material cut from \S \ref{sec:2}. Probably post to LessWrong.
-\paragraph{$\boxed{+}$ DeePWAK}
-Split out all microscopy and multihead stuff to
-\url{https://drive.google.com/file/d/1geDArkvUQVOp79dF9knNmO3iP-1BYGOD/view?usp=drive_link}.
+\subsection{Medium term goals}
+\secsubhead{4 months}
+\begin{enumerate}
+    \item Investigate bisemanticity: can we reconstruct a latent decision tree?
+    \cite{aytekin2022neural}
+    \item Adapt PSAE to GPT-2
+    \item Determine if PSAE features contain more effective information than SAE features
+    \item Compare effective information to techniques from 
+    existing literature on developmental stages\cite{hoogland2024developmental}
+\end{enumerate}
+
+\subsection{6 month goals}
+\begin{enumerate}
+    \item Performance optimization
+    \item Code distribution
+    \item Toy model of illusory interpretability
+    \item Develop metric for ``patchability'' of features
+    \item Determine if ``patchability'' is a useful proxy for interpretability
+\end{enumerate}
+
+\subsection{1 year goals}
+\begin{enumerate}
+    \item Develop a toy model for learning an ontology
+    \item Develop quality metrics for an ontology
+    \item Test ontologizer architectures
+\end{enumerate}
+
+\subsection{Evaluation}
+
+\paragraph{Cluster enrichment}
+I perform a \hyperlink{https://en.wikipedia.org/wiki/Hypergeometric_distribution#Hypergeometric_test}{hypergeometric test}
+for pairwise enrichment of all classifications in each model (Fig. \ref{fig:hyperMNIST}.
+Clusters should correspond to the classifications of the outer model.
+
+\paragraph{Effective information gain}
+Clusters should become more degenerate over the course of (outer model) training.
+
+\paragraph{Causal intervention}
+How does perturbing a feature affect model behavior?
+Is it easier to elicit desired behavior from PSAE features?
+
+\paragraph{Adversarial activation patching}
+Is it \textit{harder} to produce illusory interpretability by intervening on PSAE features?
+It may be relevant that PSAE tends to produce fewer ``dead'' features (Fig. \ref{fig:E_MNIST}
+
+\paragraph{Visual inspection}
+Do cluster centroids correspond to recognizable features?
+
+\subsection{Progress}
+I attempt to determine whether an autoencoder combined with a self-supervised classifier produces more interpretable features than a na\"ive SAE.
+I perform clustering with multiple architecture variants to assess stability of the latent classifications.
+I try to assess whether a toy model trained on the same data but with different objectives learns the same abstractions.
+
+\subsubsection{My toy model of feature splitting}
+I trained a MNIST classifier with a 3 neuron bottleneck.
+I hypothesized that since the model had more labels than neurons in the bottleneck, features would be represented in superposition.
+I refer to this as the ``outer model''.
+Details are in Appendix \ref{app:outer}.
+
+%\subsection{Feature splitting}
+I train three ``inner models'' to split the bottleneck activations into sparse features.
+One is a canonical SAE. 
+The others are variants on the architecture depicted in Fig. \ref{fig:deepwak}.
+Details are in Appendix \ref{app:inner}.
+
+See Appendix \ref{app:progress} for progress checklists.
+
+%\end{multicols}

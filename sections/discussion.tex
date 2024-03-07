@@ -1,1 +1,25 @@
-\section{Discussion}
+\section{Further Work}
+
+\subsection{Can we split DeePWAK features?}
+\DeePWAK seems to capture more general features than PSAE.
+It would be very useful if we could express high level features as compositions of lowe level features.
+
+\subsection{Why bisemanticity?}
+%This is the biggest question I have. 
+It shows up prominently in two very different data sets using different analyses.
+It suggests that monosemantic features may not be the most ``natural'' way to represent data.
+The previous analogy to PCA may be informative.
+If there is no privileged basis in feature space, it seems likely that features attempt to capture the vectors of highest variance.
+
+\subsection{Experiments on GPT2}
+Adapting DeePWAK to LLMs will present challenges.
+In its current form it performs poorly when the number of latent clusters is much larger than the minibatch size.
+A possible workaround is to add a dictionary of representative ``platonic forms'' that are appended to each minibatch.
+
+\paragraph{Is a nonlinear decoder necessary?}
+
+\paragraph{How decomposable are clusters?}
+
+\paragraph{What makes a cluster ``interpretable''?}
+
+\paragraph{Can we get a recurrent ontology?}

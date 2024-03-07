@@ -1,13 +1,32 @@
+%\begin{multicols}{2}
 \section{Preliminary Results}
+\secsubhead{I apologise for the information density of the figures.
+I didn't have time to make simpler ones.}
+\label{app:results}
 
 \subsection{How to read the figures}
 \label{sec:heatmaps}
-Heatmaps are ubiquitous in bioinformatics for visualizing very large data sets.
+%Heatmaps are ubiquitous in bioinformatics for visualizing very large data sets.
 In Fig. \ref{fig:E_MNIST} and \ref{fig:K_MNIST}, rows are samples and columns are activations.
 Samples are split either by training label (Fig. \ref{fig:E_MNIST}) or predicted label (Fig. \ref{fig:K_MNIST}.
 Activations are split by model.
 For Fig. \ref{fig:E_MNIST}, these are the encoder activations.
 \textsf{bottleneck} gives the bottleneck activations for the outer model.
+%\end{multicols}
+
+\begin{figure}{\textwidth}
+\centering
+\includegraphics[width=\textwidth]{fig/loss_outer.pdf}
+\caption{Outer model loss (logit crossentropy) compared to data labels.}
+\label{fig:lossouter}
+\end{figure}
+
+\begin{figure}{\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{fig/loss_inner.pdf}
+    \caption{Inner model loss (logit crossentropy) compared to the prediction of the outer model.}
+    \label{fig:lossinner}
+\end{figure}
 
 
 \begin{figure}
@@ -31,6 +50,8 @@ For Fig. \ref{fig:E_MNIST}, these are the encoder activations.
     \label{fig:hyperMNIST}
 \end{figure}
 
+%\begin{multicols}{2}
+    
 Even trained without a sparcity correction, \DeePWAK finds a more sparse representation than the SAE or PSAE (Fig. \ref{fig:E_MNIST}, \ref{fig:K_MNIST}.
 
 Both DeePWAK and PSAE seem to capture latent features from the bottleneck (Fig. \ref{fig:hyperMNIST}.
@@ -42,27 +63,4 @@ Looking at \textsf{DeePWAK 0}, this cluster appears to regard 6 as ``opposite'' 
 If we look back at Fig. \ref{fig:K_MNIST}, we can see the partitioner is much less confident classifying 6s than other digits.
 It's possible the model is using an internal logic of ``I don't know what this is but it's definitely not a 1''.
 
-\section{Plan}
 
-\subsection{Can we split DeePWAK features?}
-\DeePWAK seems to capture more general features than PSAE.
-It would be very useful if we could express high level features as compositions of lowe level features.
-
-\subsection{Why bisemanticity?}
-This is the biggest question I have. It shows up prominently in two very different data sets using different analyses.
-It suggests that monosemantic features may not be the most ``natural'' way to represent data.
-The previous analogy to PCA may be informative.
-If there is no privileged basis in feature space, it seems likely that features attempt to capture the vectors of highest variance.
-
-\subsection{Experiments on GPT2}
-Adapting DeePWAK to LLMs will present challenges.
-In its current form it performs poorly when the number of latent clusters is much larger than the minibatch size.
-A possible workaround is to add a dictionary of representative ``platonic forms'' that are appended to each minibatch.
-
-\paragraph{Is a nonlinear decoder necessary?}
-
-\paragraph{How decomposable are clusters?}
-
-\paragraph{What makes a cluster ``interpretable''?}
-
-\paragraph{Can we get a recurrent ontology?}

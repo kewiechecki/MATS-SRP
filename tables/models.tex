@@ -1,0 +1,65 @@
+\begin{table}[]
+    \centering
+
+
+\begin{tabular}{cc|c}
+
+
+    \hline
+    \multicolumn{3}{c}{\textbf{Data}} \\
+    \hline
+    $\boxed{\checkmark}$ & MNIST & \\ 
+    \hline
+    \multirow{3}{*}{$\boxed{-}$} & \multirow{3}{*}{Microscopy data} & 
+    Requires too much context to explain. \\
+    & & It's interesting to see how DeePWAK finds structure in a low quality \\
+    & & data set but it's still a low quality data set. \\
+    
+    \hline
+    \multicolumn{3}{c}{\textbf{Outer models}} \\
+    \hline
+    $\boxed{\checkmark}$ & Encoder & \\
+    \hline
+    $\boxed{\checkmark}$ & Classifier & \\
+    \hline
+    $\boxed{\checkmark}$ & Decoder & \\
+
+    \hline
+    \multicolumn{3}{c}{\textbf{Inner models}} \\
+    \hline
+    \multirow{2}{*}{$\boxed{\checkmark}$} & \multirow{2}{*}{SAE} &
+    A minimal SAE implementation is available at \\
+    & & \url{https://github.com/kewiechecki/SAE} \\
+    \hline
+    $\boxed{\checkmark}$ & PSAE & see above \\
+    \hline
+    \multirow{4}{*}{$\boxed{-}$} &  \multirow{4}{*}{DeePWAK} &
+    Might be needlessly complicating things. \\
+    & & Not straightforward to interpret embed \& unembed. \\
+    & & If I want to look at importance of nonlinearity \\
+    & & it makes more sense to look at SAE with no $\relu$. \\
+    \hline
+    \multirow{2}{*}{$\boxed{-}$} & \multirow{2}{*}{DeePWAKBlock} &
+    This can be relegated to a separate paper. \\
+    & & It doesn't add much for the model I'm working with. \\
+    \hline
+
+    \multicolumn{3}{c}{\textbf{Inner model methods}} \\
+    \hline
+    $\boxed{\checkmark}$ & Encoding & \\
+    \hline
+    $\boxed{\checkmark}$ & Decoding & \\
+    \hline
+    $\boxed{\checkmark}$ & Clustering & \\
+    \hline
+    $\boxed{\checkmark}$ & Cluster centroids & \\
+    \hline
+    
+    \multicolumn{3}{c}{\textbf{Training}} \\
+    \hline
+    $\boxed{\times}$ & Checkpoints & Save models at different stages of training \\
+    \hline
+\end{tabular}
+    \caption{Model design}
+    \label{tab:models}
+\end{table}

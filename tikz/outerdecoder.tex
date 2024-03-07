@@ -1,0 +1,21 @@
+\begin{tikzpicture}[
+    node distance = 5mm and 5mm,
+    punkt/.style = {rectangle, draw},
+    pil/.style = {black, -stealth},
+    font=\small
+    ]
+  \node[punkt] (conv1) {$\ConvT^{3 \to 7 \times 7 \times 1}_{\relu}$} ;
+  \node[punkt] [above=of conv1] (conv2) {$\ConvT^{6 \to 7 \times 7 \times 3}_{\relu}$} ;
+  \node[punkt] [above=of conv2] (conv3) {$\ConvT^{9 \to 7 \times 7 \times 6}_{\relu}$} ;
+  \node[punkt] [above=of conv3] (conv4) {$\ConvT^{12 \to 2 \times 2 \times 9}_{\relu}$} ;
+  \node[punkt] [above=of conv4](e1) {$\relu^{6 \to 12}$} ;
+  \node[punkt, label=above:$\decoder_{outer}^{3 \to 28 \times 28}$] [above=of e1] (e2) {$\relu^{3 \to 6}$} ;
+
+  \draw[pil]
+  (e2) edge (e1)
+  (e1) edge (conv4)
+  (conv4) edge (conv3)
+  (conv3) edge (conv2)
+  (conv2) edge (conv1);
+  
+\end{tikzpicture}

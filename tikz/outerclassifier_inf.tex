@@ -1,0 +1,19 @@
+\begin{tikzpicture}[
+    node distance = 5mm and 5mm,
+    punkt/.style = {rectangle, draw},
+    pil/.style = {black, -stealth},
+    font=\small
+    ]
+    \node[label=above:input data] (X) {$X^{28 \times 28 \times n}$} ;
+    \node[punkt] (encoder) [below=of X] {$\encoder_{outer}^{28 \times 28 \to 3}$} ;
+    \node[label=right:embeddings] (E) [below=of encoder] {$E_{outer}^{3 \times n}$} ;
+    \node[punkt] (decoder) [below=of E] {$\classifier^{3 \to 10}$} ;
+    \node[label=below:soft classifications] (Xhat) [below=of decoder] {$K^{10 \times n}$};
+
+    \draw[pil]
+    (X) edge (encoder)
+    (encoder) edge (E)
+    (E) edge (decoder)
+    (decoder) edge (Xhat);
+
+\end{tikzpicture}

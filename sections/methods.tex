@@ -1,1 +1,46 @@
-\section{Methods}
+\section{Proposed Methods}
+\subsection{My toy model of feature splitting}
+I trained a MNIST classifier with a 3 neuron bottleneck.
+I hypothesized that since the model had more labels than neurons in the bottleneck, features would be represented in superposition.
+I refer to this as the ``outer model''.
+Details are in Appendix \ref{app:outer}
+
+%\subsection{Feature splitting}
+I train three ``inner models'' to split the bottleneck activations into sparse features.
+All of them have an embedding size of 27.
+The PSAE is identical to the SAE except for containing a partitioner submodel.
+Details are in Appendix \ref{app:inner}
+
+%\end{multicols}
+
+\begin{figure}
+    \centering
+     %\begin{subfigure}[b]{0.5\textwidth}
+        \input{tikz/DeePWAK.tex}
+      %   \caption{}
+      %   \label{fig:}
+     %\end{subfigure}
+     %\hfill
+     
+     \caption{
+     $KE$ decomposition forward pass. 
+     $E_{outer}$ is the activation matrix obtained from an outer model.
+     For $n$ samples with $m$ activations, an inner encoder embeds each as a vector of length $d$.
+     An inner classifier assigns probabilities for each sample being in each of $k$ clusters.
+     Using the \PWAK transformation (see Appendix \ref{app:pwak}), 
+     we obtain a denoising diffusion kernel based on the probability of sample pairs being in the same cluster.
+     Matrix multiplication of the kernel with the inner embeddings gives denoised embeddings.
+     The decoder unembeds the denoised embeddings back into activations of the outer model.
+     The general method can be combined with any inner encoder, decoder, and classifier.
+     See Appendix \ref{app:notation} for notation details.
+     }
+     \label{fig:deepwak}
+\end{figure}
+
+%\begin{multicols}{2}
+    
+%\subsection{Clustering}
+I introduce two novel architectures that combine feature splitting with clustering. See Appendix \ref{} for details.
+Both have identical clustering submodules with a maximum $k$ of 12.
+They only differ is their encoders and (in the case of DeePWAK) decoders.
+

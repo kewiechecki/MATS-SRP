@@ -202,7 +202,7 @@
 % rules for title box at top of first page
 \newcommand{\@toptitlebar}{
   \hrule height 2\p@
-  \vskip 0.25in
+  \vskip 0.1in
   \vskip -\parskip%
 }
 \newcommand{\@bottomtitlebar}{
@@ -212,19 +212,22 @@
   \vskip 0.09in%
 }
 
+\newcommand{\subtitle}[1]{\def\@subtitle{#1}}
+
 % create title (includes both anonymized and non-anonymized versions)
 \providecommand{\@maketitle}{}
 \renewcommand{\@maketitle}{%
   \vbox{%
     \hsize\textwidth
     \linewidth\hsize
-    \vskip 0.1in
+    %\vskip 0.1in
     \@toptitlebar
     \centering
     {\LARGE\sc \@title\par}
+    {\large\sc \@subtitle\par} % Subtitle in small caps and slightly smaller size
     \@bottomtitlebar
     \textsc{\undertitle}\\
-    \vskip 0.1in
+    %\vskip 0.1in
     \def\And{%
       \end{tabular}\hfil\linebreak[0]\hfil%
       \begin{tabular}[t]{c}\bf\rule{\z@}{24\p@}\ignorespaces%
@@ -234,7 +237,7 @@
       \begin{tabular}[t]{c}\bf\rule{\z@}{24\p@}\ignorespaces%
     }
     \begin{tabular}[t]{c}\bf\rule{\z@}{24\p@}\@author\end{tabular}%
-  \vskip 0.4in \@minus 0.1in \center{\@date}   \vskip 0.2in
+  \vskip 0.1in \@minus 0.1in \center{\@date}   \vskip 0.1in
   }
 }
 

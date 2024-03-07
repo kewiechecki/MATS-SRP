@@ -1,0 +1,279 @@
+\section{Theory of Change}
+\label{sec:2}
+\paragraph{Epistemic status}
+This is my inside view of what the Hamming questions are based on an incomplete review of the literature and some preliminary experiments.
+I'm unaware of any directly similar work, and am ~70\% confident that this is the first
+serious attempt at implementing unsupervised learning of an ontology 
+in an actually-existing neural network.
+%I'm 95\% confident that it is an improvement over any existing implementation of a 
+Conditional on my underlying model of ontology being true, 
+I'm ~80\% confident that the techniques I propose will be a substantial interpretability advance.
+Moreover, I believe the proposed research agenda to have a high counterfactual impact.
+Because the theoretical basis consists of nonobvious applications of obscure techniques from 
+niche fields of bioinformatics, I'm 50\% confident that similar research would not be done in the 
+next 5 years otherwise.
+
+\subsection{What I expect a solution to look like}
+I believe (~50\%) that mechinterp offers the best path to a robust alignment solution despite
+\hyperlink{https://www.lesswrong.com/posts/tEPHGZAb63dfq2v8n/how-useful-is-mechanistic-interpretability}{criticisms}.
+This is based on 
+\begin{enumerate}
+    \item \textbf{decomposability} Mechinterp allows alignment to be broken into manageable subproblems.
+    \item \textbf{parallelizability} Decomposable subproblems can be worked on independently.
+    \item \textbf{robustness} Mechinterp offers direct causal explanations of model behavior.
+\end{enumerate}
+The most straightforward mechinterp alignment solutions are
+\begin{enumerate}
+    \item \hyperlink{https://www.alignment.org/blog/arcs-first-technical-report-eliciting-latent-knowledge/}{eliciting latent knowledge (ELK)} 
+    Directly inferring a model's ontology.
+    \label{it:elk}
+    \item \hyperlink{https://www.alignment.org/blog/mechanistic-anomaly-detection-and-elk/}{mechanistic anomaly detection (MAD)} 
+    Detecting when a model has ``unusual'' thoughts.
+    \label{it:mad}
+\end{enumerate}
+Both of these can be considered 
+\hyperlink{https://arbital.greaterwrong.com/p/ontology_identification/}{ontology identification}
+subproblems. 
+MAD requires mapping between the model's activations and the model's ontology.
+ELK requires mapping between the model's ontology and human ontology.
+These are hard but not intractable problems.
+Recently, \hyperlink{https://devinterp.com/}{developmental interpretability} 
+(devinterp) techniques have enabled identification of ``developmental stages'' 
+corresponding to learning specific tasks.
+\cite{hoogland2024developmental}.
+This is strong evidence that learning consists primarily of the network
+grokking\cite{nanda2023progress} discrete concepts.
+While these results are promising for MAD, 
+locating these emergent capabilities in the model's activations remains an open problem.
+
+
+
+%\subsubsection{Concept formation as phase changes}
+%I'm optimistic about the tractability of ontology identification based on both empirical evidence of 
+%universality\cite{} 
+%and the theoretical basis for convergent model behavior provided by 
+%singular learning theory\cite{}.
+%I don't expect the model's ontology to directly map to human ontology.
+%However, it seems feasible to identify formation of new concepts during training.
+%This is the goal of \hyperlink{https://devinterp.com/}{developmental interpretability} (devinterp),
+%which is even more preparadigmatic than mechinterp.
+%Methods exist for identifying phase changes during training, 
+%but mapping these to interpretable concepts is an open problem\cite{}.
+
+\subsection{My macro-scale strategy}
+%I see the fundamental problems for alleviating this threat as
+Broadly, my goals are to
+\begin{enumerate}
+  \item formalize the notion of a model's latent concept space
+  \item distill a model's latent concept space
+  \item enforce decomposability of latent concept space
+  \item enforce robustness of existing concepts as the dimensionality of the latent concept space increases
+\end{enumerate}
+
+A prerequisite for all of these is the ability to express a 
+\hyperlink{https://plato.stanford.edu/entries/ontological-commitment/}{metaontology}
+which can identify latent concepts in activation space.
+I aim to demonstrate that defining a metaontology can be effectively treated as a signal processing problem.
+
+%My justification for this line of research is
+%\begin{enumerate}
+%\item Almost every alignment proposal is limited by the ability to point at a concept.
+%\item According to singular learning theory (SLT), any sufficiently parameterized model trained on the same data will converge on the same latent representation of the data.
+%\item Almost every alignment proposal becomes much more tractable if we can reason about features in isolation.
+%\end{enumerate}
+
+\subsection{My working theory of ontology}
+\paragraph{Epistemic status}
+This is my inside-view world model of the nature of ontology.
+It's primarily relevant for why I chose to pursue the solution I present in the preliminary results.
+It is largely informed by my background in developmental genomics,
+which has given me a somewhat atypical mix of GOFAI and deep learning intuitions.
+
+\subsubsection{Effective information and causal emergence}
+One of the most fascinating and frustrating features of biological systems is their ability to
+represent processes that are effectively deterministic at a high level 
+(e.g. cell differentiation during embryogenesis)
+using noisy, nondeterministic lower level processes\footnote{
+For an example, see our lab's work on combinatorial enhancers\cite{10.7554/eLife.49921}.
+We modified the enhancer for \hyperlink{https://aniseed.fr/aniseed/gene/show_gene?unique_id=Cirobu.g00012207&module=aniseed&action=gene:show_gene}{a key gene for cell fate determination}.
+We observed that while \textit{level of expression} of the gene is simply a 
+function of number of enhancer binding sites, 
+expressing the gene \textit{in only the right cells} depends on the right combination of binding sites.
+}.
+
+A key insight into this phenomenon is the effective information\cite{klein2020emergence} of a network.
+Essentially, high entropy subnetworks of a graph can be considered degeneracies.
+These can effectively be aggregated into a single node. 
+This can be equated to maximum entropy clustering\cite{e17010151}.
+There are obvious parallels between causal emergence and singular learning theory (SLT).
+Both provide motivation for
+\hyperlink{https://www.lesswrong.com/posts/vvEebH5jEvxnJEvBC/abstractions-as-redundant-information}{abstraction as redundant information}.
+Both express redundant information in terms of degeneracies. SLT considers degeneracies in the
+\hyperlink{https://en.wikipedia.org/wiki/Fisher_information}{Fisher information matrix}
+of a model's parameter space.
+Causal emergence considers degeneracies in the 
+\hyperlink{https://en.wikipedia.org/wiki/Adjacency_matrix}{adjacency matrix} of a graph.
+They diverge in that SLT looks at \textit{degeneracies in the model},
+whereas causal emergence looks at \textit{degeneracies in the data}.
+As a consequence, SLT is primarily concerned with limit behavior given infinite data,
+while causal emergence deals with finite data sets.
+%The difference is that SLT effective information addresses finite, 
+%discrete data rather than limit behavior. 
+
+\subsubsection{Denoising the data explains the data}
+From an effective information viewpoint, noise is the variation within an aggregate node.
+In other words, node aggregation can be expressed as optimizing a denoising function.
+Existing techniques for coarse graining based on effective information requires reversibility of the 
+neural network, a prior over the noise, and explicit calculation of effective information
+\cite{e25010026}. Self-supervised denoising avoids all of these.
+See Appendix \ref{app:bgd} for details.
+
+\subsubsection{Relevance to alignment}
+Neural networks are able to generalize by
+\hyperlink{https://www.lesswrong.com/s/mqwA5FcL6SrHEQzox/p/fovfuFdpuEwQzJu2w}{finding degeneracies}.
+SLT has so far focused on degeneracies in the parameter space.
+The effect of degeneracies in the training data, however, remain underexplored.
+\hyperlink{https://www.lesswrong.com/posts/6Fpvch8RR29qLEWNH/chinchilla-s-wild-implications}{Recent evidence from scaling LLMs}
+suggests that data rather than compute is the limiting factor on capabilities.
+Training data can't be scaled as easily as compute. Data quality matters. 
+Effective information provides a useful metric for a ``real training data size'' analogous to the
+\hyperlink{https://www.lesswrong.com/posts/6g8cAftfQufLmFDYT/you-re-measuring-model-complexity-wrong}{real learning coefficient}.
+
+The ability to quantify the information content of a data set has far-reaching implications.
+It suggests that any data set has a privileged set of
+\hyperlink{https://www.lesswrong.com/posts/dWQWzGCSFj6GTZHz7/natural-latents-the-math}{natural latents}.
+This is a weaker claim than the existence of natural abstractions in the
+\hyperlink{https://www.lesswrong.com/posts/FWvzwCDRgcjb9sigb/why-agent-foundations-an-overly-abstract-explanation}{True Names}
+sense, as it is dependent on the specific data under consideration.
+It only addresses finite data sets, not limit behavior.
+
+%This was not at all obvious in hindsight and if we survive the coming decades it will profoundly reshape every aspect of philosophy.
+%From an alignment perspective, the universality of deep learning independent of architecture is strong evidence for the existence of ``weak'' natural abstractions.
+%This is very good news! We have evidence that for any given data there is an ``objective'' ground truth.
+
+%\paragraph{Claim}
+%For a given finite data set and given loss function, there exists a convergent set of abstractions.
+
+
+
+%I refer to any mapping of data to abstractions as an \textit{ontology}.
+%I propose two necessary properties of an ontology.
+%\begin{enumerate}
+%    \item \textbf{abstraction} ontologies map continuous data to a discrete representation
+%    \label{enum:clust}
+%    \item \textbf{denoising} ontologies throw out uninformative variance
+%    \label{enum:compress}
+%    \item \textbf{realizability} ontologies must be computationally tractable 
+%    \item \textbf{convergence} a maximally informative ontology given infinite data 
+%\end{enumerate}
+%I refer to (\ref{enum:clust}) as the ``clustering'' property and 
+%(\ref{enum:compress}) as the ``compression'' property.
+%At the risk of further overloading already-overloaded terms,
+%I refer to the discrete representations as ``features'' 
+%and the functions mapping data to features as ``concepts''.
+%\footnote{Though features can also be thought of as morphisms between concepts.}
+%From these I conclude that
+%\begin{enumerate}
+%    \item for a given (finite) data set, there is a privileged ontology
+%    \label{enum:priv}
+%    \item this corresponds to the most information-efficient way of labeling the data
+%\end{enumerate}
+
+\subsection{Applications}
+
+%\subsubsection{Features and concepts}
+%% should I call concepts "cofeatures" instead?
+%Mechinterp has been very successful at decomposing models into linear \textit{features}.
+%Features have proven to be a powerful way of abstracting over activation space.
+%In other words, mechinterp aims to construct \textit{an ontology of activation space}.
+
+%However, this is not the only model ontology we care about.
+%Many of the concepts humans care about are discrete or stochastic.
+%For humans, it's unintuitive to think of every image as containing a sliding ``car vector''.
+%Humans classify images as containing a car.
+%Note that there is a subtle difference between these two kinds of abstraction.
+%The former is abstracting over \textit{the pixels in an image} to obtain a characteristic measurement of how ``car'' it is.
+%The latter is abstracting over \textit{the images in a set} to obtain a likelihood (if we assume differentiability) that the image is in the ``contains car'' category.  
+%%I will refer to the former as \textit{features} and the latter as \textit{concepts}.
+%%If we have some data $X \in \mathbb{R}^{m \times n}$,
+%%where $n$ is the number of samples and $m$ is the number of measurements from each sample, 
+%%features are abstractions over $m$ and concepts are abstractions over $n$.
+
+%\subsection{Clustering and latent classification}
+%I propose that this ``ontology over concepts'' is best expressed in terms of clustering.
+%Neural networks are continuous, but can learn discrete tasks.
+%SLT suggests a possible mechanism for this behavior,
+%but a systematic way of characterizing discretization in the wild remains an open problem.
+%Though SLT provides a rich thermodynamic description of learning,
+%an alternative metaphor may be more intuitive.
+%Consider a latent classifier contained in the model.
+%Subsequent computations can be conditional on the classification
+
+%Additional information on the algorithm are in Appendix \ref{app:bgd}.
+
+%\subsubsection{Empirical abstraction}
+%The field of natural abstraction generally deals with the limit behavior of a learning algorithm as data approach infinity.
+%I will however restrict my definitions to model training regimes I can run experiments on.
+%I refer to the abstractions learned from a specific finite training set as \textit{empirical abstractions}.  
+%
+%\subsubsection{Denoising, compression, and clustering}
+%Ontologies must serve an information theoretic purpose.
+%I argue that their primary purpose is minimizing prediction loss through \textit{denoising}.
+%Which is to say, discarding information that cannot be used to make inferences.
+%I further posit that there are two mechanisms by which ontologies form: compression and clustering.
+%These mechanisms are synergistic. Informally, I equate the two with PCA and SVD.
+%In my preliminary results, I hope to demonstrate that this intuition has (putative) empirical backing.
+
+\subsubsection{SAEs and abstraction}
+Mechinterp is best charaterized as understanding the abstractions used by a model.
+\hyperlink{}{Sparse autoencoders} (SAEs) have become a powerful tool for identifying monosemantic features.
+Though SAE features are significantly more interpretable than raw activations, interpreting them is still a daunting task.
+\hyperlink{https://www.lesswrong.com/posts/f9EgfLSurAiqRJySD/open-source-sparse-autoencoders-for-all-residual-stream}{A high quality library for a single layer}
+can contain over 25,000 features.
+It would be a substantial interpretability advance if we could impose structure on these features.
+
+\hyperlink{https://transformer-circuits.pub/2023/monosemantic-features/index.html#phenomenology-feature-splitting}{Existing research} 
+on SAEs suggests that features assemble into clusters representing higher order features
+\cite{bricken2023monosemanticity}.
+This suggests the possibility of a hierarchical organization of features.
+Characterizing features requires carefully balancing feature sparcity and accurately reconstructing the model activations.
+A principled way of aggregating features would make scaling up mechinterp techniques much more tractable.
+
+\subsubsection{Finding an interpretable basis}
+A common technique for attribution of features to model behavior is activation patching.
+However, this attribution can be illusory\cite{makelov2023subspace}.
+Because activations are sparse and do not have a privileged basis,
+it is easy to find ``dormant'' features that produce the desired behavior when perturbed,
+but do not correspond to the activations a model actually uses for a task.
+%Lack of a privileged basis can also be a problem for interpreting features from SAEs.
+This is particularly problematic for features identified based on contrastive pairs.
+It's easy to think of opposite examples, but hard to isolate what information a model actually
+uses to distinguish them.
+Causal emergence suggests a means of formalizing what makes conceptual examples ``representative''.
+If a concept is expressed as a latent cluster, the cluster centroid can be taken as the
+representative example of that concept.
+
+\subsubsection{$KE$ decomposition}
+I propose a new interpretability technique pairing an SAE with data aggregation 
+(Fig. \ref{fig:deepwak}).
+I refer to this as a partitioned sparse autoencoder (PSAE).
+Activations are factored into a cluster matrix $K$ and an embedding matrix $E$.
+In prinicple, it is closely related to 
+\hyperlink{https://en.wikipedia.org/wiki/Singular_value_decomposition}{singular value decomposition}.
+By treating clustering as self-supervised classification,
+this method simultaneously attempts to find the latent features and
+latent clusters which minimize noise.
+%Conceptually, it first splits activations into sparse features. 
+%It then attempts to aggregate data to minimize feature noise.
+%%In the next backwards pass, the feature splitting attempts to find 
+%During training, the features should converge on 
+%\footnote{The actual implementation uses soft cluster assignment. See Appendix \ref{app:pwak} for details.}
+
+
+Preliminary results (Appendix \ref{app:results}) found that this approach recovered latent classifications from a toy model 
+(Supplementary Fig. \ref{fig:hyperMNIST}).
+%New section - briefly describe how your proposed method will enable us to impose hierarchy in this way
+
+\subsubsection{Ontologizer}
+I believe (80\%) that an ontology can be represented as a series of $KE$ decompositions.
+A simple example is shown in Appendix \ref{app:micro}.
